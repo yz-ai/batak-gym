@@ -18,7 +18,9 @@ We are planning to release this environment step by step.
 
 1. Can't play another suit, if one has the current trick's suit.
 2. Can't lead trump until trump is broken.
+3. After all the cards have been played, points are tallied for each player.
 
 ## Activatable Rules
 
 1. Must play bigger card.
+2. Each of the four player have 13 cards default. The number of cards may change.
