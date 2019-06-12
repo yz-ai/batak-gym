@@ -29,7 +29,7 @@ We are planning to release this environment step by step.
 ## Rewards without bidding
 
 1. After every character plays a card and hand is decided, a reward is issued as 1 or 0.
-2. After all the cards have been played, reward is issued as taken hands times 10. (no bidding)
+2. After all the cards have been played, reward is issued as taken hands times 10.
 
 ## Rewards with bidding
 
