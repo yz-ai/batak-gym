@@ -2,7 +2,7 @@
 
 This game is a challenging environment for AI projects. One version of the game is the same with spades. It is similar to spades, hearts, bid whist, contract bridge and tarneeb. We will be implementing versions of this game eventually.
 
-![example deck](./cards.webp)
+![card examples](./cards.webp)
 
 ## Reinforcement Learning
 
@@ -20,16 +20,20 @@ We are planning to release this environment step by step.
 
 ### Default Rules
 
+- The classic batak game is played with 4 people. The default deck contains 52 cards. These 52 cards are distributed equally to 4 people. So at the beginning of the game each player has 13 cards.
+- (If the game contains bidding session) The bidding opens with 5. Other players may raise or pass the bid respectively. If no-one bids, the first bidder is considered to have entered the bidding with 4.
+- The player who won the bidding starts the game.
 - Can't play another suit, if one has the current trick's suit.
 - Can't lead trump until trump is broken.
 - After all the cards have been played, points are tallied for each player.
 
+![default deck picture](./default-deck.webp)
+
 ### Activatable Rules
 
-- Must play bigger card if present.
-- The default deck contains 52 cards. The number of cards can be changed to play easier setups.
+- Must play bigger card if present. (As an example: hearts-7 was thrown on the ground. You also have hearts-5 and hearts-9 and hearts-king. You have to throw at least hearts-9. If the cards in your hand do not pass the cards on the floor, you can play any card)
+- The number of cards in a deck can be changed with easy setup.
 - The game includes four different types of cards: clubs, diamonds, spades and hearts.
-- Bidding opens with 5. If no-one bids, first bidder bids with 4.
 
 ## Rewards
 
