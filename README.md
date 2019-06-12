@@ -1,6 +1,6 @@
-# Gym-like environment for the game Batak
+# Batak-Gym
 
-This game is a challenging environment for AI projects. One version of the game is the same with spades. It is similar to hearts, bid whist, contract bridge and tarneeb. We will be implementing versions of this game eventually.
+This game is a challenging environment for AI projects. One version of the game is the same with spades. It is similar to spades, hearts, bid whist, contract bridge and tarneeb. We will be implementing versions of this game eventually.
 
 ## Reinforcement Learning
 
@@ -22,16 +22,24 @@ We are planning to release this environment step by step.
 
 ## Activatable Rules
 
-1. Must play bigger card.
-2. Each of the four player have 13 cards default. The number of cards may change.
+1. Must play bigger card if present.
+2. The default deck contains 52 cards. The number of cards can be changed to play easier setups.
+3. Bidding opens with 5. If no-one bids, first bidder bids with 4.
 
-## Rewards
+## Rewards without bidding
 
-1. After every character playes a card and hand is decided, a reward is issued as 1 or 0.
+1. After every character plays a card and hand is decided, a reward is issued as 1 or 0.
 2. After all the cards have been played, reward is issued as taken hands times 10. (no bidding)
-3. After all the cards have been played, on win condition reward is given as, batak rules. (bidding)
 
-### Example end game bidding reward
+## Rewards with bidding
 
-Player bids 4, and takes 6 hands, reward is 40 + 2 = 42.
-Player bids 5, and takes 3 hands, reward is 30 - 50 = -20.
+### Spades style
+
+1. After every character plays a card and hand is decided, a reward is issued as 1 or 0.
+2. If the player failed the bid reward is -10 times bid. If the player won the bid reward is 10 times bid.
+
+### Batak style
+
+1. Player is the bidder and wons the bid, reward is +1 times bid.
+2. Player is the bidder and fails the bid, reward is -1 times bid.
+3. Player is not the bidder and takes nothing reward is the -1 times bidder's bid.
