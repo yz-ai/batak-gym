@@ -2,8 +2,6 @@
 
 This game is a challenging environment for AI projects. One version of the game is the same with spades. It is similar to spades, hearts, bid whist, contract bridge and tarneeb. We will be implementing versions of this game eventually.
 
-![example deck](./cards.webp)
-
 ## Reinforcement Learning
 
 Batak is a POMDP problem. Its observability is limited to one's hand and the actively picked cards at turns.
