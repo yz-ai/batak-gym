@@ -40,6 +40,7 @@ We are planning to release this environment step by step.
 
 ### Batak style
 
-1. Player is the bidder and wons the bid, reward is +1 times bid.
-2. Player is the bidder and fails the bid, reward is -1 times bid.
-3. Player is not the bidder and takes nothing reward is the -1 times bidder's bid.
+1. After every character plays a card and hand is decided, a reward is issued as 1 or 0.
+2. Player is the bidder and wons the bid, reward is +1 times bid.
+3. Player is the bidder and fails the bid, reward is -1 times bid.
+4. Player is not the bidder and takes nothing reward is the -1 times bidder's bid.
