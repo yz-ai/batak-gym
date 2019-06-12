@@ -27,7 +27,7 @@ We are planning to release this environment step by step.
 - Can't lead trump until trump is broken.
 - After all the cards have been played, points are tallied for each player.
 
-![default deck picture](./default-deck.webp) Default Deck with 52 cards
+![default deck picture](./default-deck.webp) (Default Deck with 52 cards)
 
 ### Activatable Rules
 
