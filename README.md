@@ -2,6 +2,8 @@
 
 This game is a challenging environment for AI projects. One version of the game is the same with spades. It is similar to spades, hearts, bid whist, contract bridge and tarneeb. We will be implementing versions of this game eventually.
 
+![card examples](./cards.webp)
+
 ## Reinforcement Learning
 
 Batak is a POMDP problem. Its observability is limited to one's hand and the actively picked cards at turns.
@@ -10,28 +12,40 @@ Batak is a POMDP problem. Its observability is limited to one's hand and the act
 
 We are planning to release this environment step by step.
 
-1. No bidding, spades is the default trump.
-2. With bidding, spades is the default trump.
-3. With bidding, highest bidder sets the trump.
+1. [ ] No bidding, spades is the default trump.
+2. [ ] With bidding, spades is the default trump.
+3. [ ] With bidding, highest bidder sets the trump.
 
-## Default Rules
+## Rules
 
-1. Can't play another suit, if one has the current trick's suit.
-2. Can't lead trump until trump is broken.
-3. After all the cards have been played, points are tallied for each player.
+### Default Rules
 
-## Activatable Rules
+- The classic batak game is played with 4 people. The default deck contains 52 cards. These 52 cards are distributed equally to 4 people. So at the beginning of the game each player has 13 cards.
+- Can't play another suit, if one has the current trick's suit.
+- Can't lead trump until trump is broken.
+- After all the cards have been played, points are tallied for each player.
 
-1. Must play bigger card if present.
-2. The default deck contains 52 cards. The number of cards can be changed to play easier setups.
-3. Bidding opens with 5. If no-one bids, first bidder bids with 4.
+<figure>
+  <img src="./default-deck.webp" alt="Default Deck with 52 cards">
+ <!-- <figcaption>Fig.2 - Default Deck with 52 cards</figcaption> -->
+</figure>
 
-## Rewards without bidding
+### Activatable Rules
+
+- Must play bigger card if present. (As an example: hearts-7 was thrown on the ground. You also have hearts-5 and hearts-9 and hearts-king. You have to throw at least hearts-9. If the cards in your hand do not pass the cards on the floor, you can play any card)
+- The number of cards in a deck can be changed with easy setup.
+- The game includes four different types of cards: clubs, diamonds, spades and hearts.
+- (If the game contains bidding session) The bidding opens with 5. Other players may raise or pass the bid respectively. If no-one bids, the first bidder is considered to have entered the bidding with 4.
+- The player who won the bidding starts the game.
+
+## Rewards
+
+### Rewards without bidding
 
 1. After every character plays a card and hand is decided, a reward is issued as 1 or 0.
 2. After all the cards have been played, reward is issued as taken hands times 10.
 
-## Rewards with bidding
+### Rewards with bidding
 
 ### Spades style
 
