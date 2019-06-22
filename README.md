@@ -31,7 +31,7 @@ We are planning to release this environment step by step.
  <!-- <figcaption>Fig.2 - Default Deck with 52 cards</figcaption> -->
 </figure>
 
-1. Simple Game Environment
+### 1. Simple Game Environment
 
 - The card game is played with 4 people. The default deck contains 52 cards. These 52 cards are distributed equally to 4 people. So at the beginning of the game each player has 13 cards.
 - The game includes four different types of cards: clubs, diamonds, spades and hearts.
@@ -45,7 +45,7 @@ We are planning to release this environment step by step.
 - After all the cards have been played, points are tallied for each player.
 - Each player must get a minimum of 1. Otherwise, they sink to 5.
 
-2. Batak Game Environment
+### 2. Batak Game Environment
 
 - The card game is played with 4 people. The default deck contains 52 cards. These 52 cards are distributed equally to 4 people. So at the beginning of the game each player has 13 cards.
 - The game includes four different types of cards: clubs, diamonds, spades and hearts.
