@@ -36,22 +36,28 @@ We are planning to release this environment step by step.
 - The card game is played with 4 people. The default deck contains 52 cards. These 52 cards are distributed equally to 4 people. So at the beginning of the game each player has 13 cards.
 - The game includes four different types of cards: clubs, diamonds, spades and hearts.
 - There is no bidding session before a game start.
-- The default trump is always spade.
+- The default trump is always **_spade_**.
 - The players only play one card in their turns.
 - During a lap, the players can play any card of the same type as the card on the ground without having to increase the card.
-- The player who plays the highest card wins this turn.
+- The player who plays the highest card wins this lap.
 - Can't play spade until trump is broken.
-- If a player does not have any card with the same type on the ground, the player should play spade. This breaks the trump. After that players can play spades as well.
+- If a player does not have any card with the same type on the ground, the player should play **_spade_**. This breaks the trump. After that players can play spades as well.
 - After all the cards have been played, points are tallied for each player.
 - Each player must get a minimum of 1. Otherwise, they sink to 5.
 
 2. Batak Game Environment
 
-<!-- 
+- The card game is played with 4 people. The default deck contains 52 cards. These 52 cards are distributed equally to 4 people. So at the beginning of the game each player has 13 cards.
+- The game includes four different types of cards: clubs, diamonds, spades and hearts.
 - Must play bigger card if present. (As an example: hearts-7 was thrown on the ground. You also have hearts-5 and hearts-9 and hearts-king. You have to throw at least hearts-9. If the cards in your hand do not pass the cards on the floor, you can play any card)
-- The number of cards in a deck can be changed with easy setup.
-- (If the game contains bidding session) The bidding opens with 5. Other players may raise or pass the bid respectively. If no-one bids, the first bidder is considered to have entered the bidding with 4.
-- The player who won the bidding starts the game.
+- This card game has a bidding session before game turns start. The bidding opens with 5. Other players may raise or pass the bid respectively. If no-one bids, the first bidder is considered to have entered the bidding with 4.
+- The player who won the bidding determines the trump card and starts the game.
+- The player who plays the highest card wins this lap.
+- If a player does not have any card with the same type on the ground, the player should play **_selected trump_**. This breaks the trump. After that players can play spades as well.
+- Can't play spade until trump is broken.
+- Each player must get a minimum of 1. Otherwise, they sink to 5.
+
+<!--
 
 ## Rewards
 
