@@ -33,3 +33,7 @@ observation = {
         },
     ]
 }
+
+action = {
+    {'type': 'SPADES', 'number': 1},
+}
