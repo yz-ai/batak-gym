@@ -1,9 +1,5 @@
 """RL environments for Card Games, using an API similar to OpenAI Gym."""
 
-from __future__ import absolute_import
-from __future__ import division
-
-
 # -------------------------------------------------------------------------------
 # Environment API
 # -------------------------------------------------------------------------------
