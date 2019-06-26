@@ -6,7 +6,6 @@ observation = {
     'current_bid_holder': {
         'source_player': 0,
         'bid': 6,
-        'trump': 'SPADES',
     },
     'turn_count': 2,  # number of turn passed in this game
     'current_game_count': 4,  # number of games are played so far
