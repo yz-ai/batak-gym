@@ -1,13 +1,13 @@
-from environments.environment import Environment
-from environments.game_state import GameState
-from environments.player import Player
-from environments.round import Round
-from environments.simple_environment import SimpleEnv
+from .environment import Environment
+from .game_state import GameState
+from .player import Player
+from .round import Round
+from .simple_environment import SimpleEnv
 
 __all__ = [
-    Environment,
-    Player,
-    Round,
-    GameState,
-    SimpleEnv
+    "Environment",
+    "Player",
+    "Round",
+    "GameState",
+    "SimpleEnv"
 ]

@@ -1,4 +1,5 @@
-from environments import Environment
+from environments.environment import Environment
+from environments.state import State
 
 
 class SimpleEnv(Environment):
@@ -9,7 +10,5 @@ class SimpleEnv(Environment):
     def step(self, action):
         pass
 
-    def reset(self, config):
-        super().reset(config)
-
-
+    def reset(self) -> State:
+        return super().reset()

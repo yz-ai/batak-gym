@@ -5,6 +5,7 @@ import numpy as np
 # 13-25 CLUBS (2-3-4-5-6-7-8-9-10-J-Q-K-A)
 # 26-38 HEARTS (2-3-4-5-6-7-8-9-10-J-Q-K-A)
 # 39-51 DIAMONDS (2-3-4-5-6-7-8-9-10-J-Q-K-A)
+from environments import SimpleEnv
 
 idx2card = {
     0: '2S', 1: '3S', 2: '4S', 3: '5S', 4: '6S', 5: '7S', 6: '8S', 7: '9S', 8: '10S', 9: 'JS', 10: 'QS', 11: 'KS', 12: 'AS',
@@ -160,5 +161,12 @@ def main():
             count += 1
 
 
+def main_with_env():
+    env = SimpleEnv()
+    state = env.reset()
+
+    print(state.hand, state.history)
+
+
 if __name__ == '__main__':
-    main()
+    main_with_env()
