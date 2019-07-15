@@ -18,7 +18,7 @@ class Agent(object):
     ```
     """
 
-    def __init__(self, config, *args, **kwargs):
+    def __init__(self, agent_id: int):
         r"""Initialize the agent.
         Args:
           config: dict, With parameters for the game. Config takes the following
@@ -36,7 +36,7 @@ class Agent(object):
         Raises:
           AgentError: Custom exceptions.
         """
-        raise NotImplementedError("Not implemeneted in abstract base class.")
+        self.id = agent_id
 
     def reset(self, config):
         r"""Reset the agent with a new config.

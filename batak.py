@@ -5,13 +5,20 @@ import numpy as np
 # 13-25 CLUBS (2-3-4-5-6-7-8-9-10-J-Q-K-A)
 # 26-38 HEARTS (2-3-4-5-6-7-8-9-10-J-Q-K-A)
 # 39-51 DIAMONDS (2-3-4-5-6-7-8-9-10-J-Q-K-A)
+from agents import RandomAgent
 from environments import SimpleEnv
 
+MAX_EPISODE = 10
+
 idx2card = {
-    0: '2S', 1: '3S', 2: '4S', 3: '5S', 4: '6S', 5: '7S', 6: '8S', 7: '9S', 8: '10S', 9: 'JS', 10: 'QS', 11: 'KS', 12: 'AS',
-    13: '2C', 14: '3C', 15: '4C', 16: '5C', 17: '6C', 18: '7C', 19: '8C', 20: '9C', 21: '10C', 22: 'JC', 23: 'QC', 24: 'KC', 25: 'AC',
-    26: '2H', 27: '3H', 28: '4H', 29: '5H', 30: '6H', 31: '7H', 32: '8H', 33: '9H', 34: '10H', 35: 'JH', 36: 'QH', 37: 'KH', 38: 'AH',
-    39: '2D', 40: '3D', 41: '4D', 42: '5D', 43: '6D', 44: '7D', 45: '8D', 46: '9D', 47: '10D', 48: 'JD', 49: 'QD', 50: 'KD', 51: 'AD'}
+    0: '2S', 1: '3S', 2: '4S', 3: '5S', 4: '6S', 5: '7S', 6: '8S', 7: '9S', 8: '10S', 9: 'JS', 10: 'QS', 11: 'KS',
+    12: 'AS',
+    13: '2C', 14: '3C', 15: '4C', 16: '5C', 17: '6C', 18: '7C', 19: '8C', 20: '9C', 21: '10C', 22: 'JC', 23: 'QC',
+    24: 'KC', 25: 'AC',
+    26: '2H', 27: '3H', 28: '4H', 29: '5H', 30: '6H', 31: '7H', 32: '8H', 33: '9H', 34: '10H', 35: 'JH', 36: 'QH',
+    37: 'KH', 38: 'AH',
+    39: '2D', 40: '3D', 41: '4D', 42: '5D', 43: '6D', 44: '7D', 45: '8D', 46: '9D', 47: '10D', 48: 'JD', 49: 'QD',
+    50: 'KD', 51: 'AD'}
 
 card2idx = {card: idx for idx, card in idx2card.items()}
 suit_indices = {"S": list(range(0, 13)), "C": list(range(13, 26)), "H": list(range(26, 39)), "D": list(range(39, 52))}
@@ -44,7 +51,6 @@ def print_current_hands(player_hands):
 
 
 def get_playable_cards(player_hand, current_trump, trump_broken, current_suit, current_set, current_highest):
-
     playable_cards = []
     trump_cards = [idx for idx in player_hand if idx in suit_indices[current_trump]]
 
@@ -71,7 +77,8 @@ def get_playable_cards(player_hand, current_trump, trump_broken, current_suit, c
             # If we have trump in our hand.
             else:
 
-                trumps_in_current_set = [trump_card for trump_card in current_set if trump_card in suit_indices[current_trump]]
+                trumps_in_current_set = [trump_card for trump_card in current_set if
+                                         trump_card in suit_indices[current_trump]]
 
                 # If there is no trump card in the playground.
                 # HERE, WE BROKE THE TRUMP.
@@ -124,7 +131,8 @@ def main():
     while count < 5:
         print(f"Player {current_player} is now playing")
         player_hand = player_hands[current_player]
-        playable_cards, trump_broken = get_playable_cards(player_hand, current_trump, trump_broken, current_suit, current_set, current_highest)
+        playable_cards, trump_broken = get_playable_cards(player_hand, current_trump, trump_broken, current_suit,
+                                                          current_set, current_highest)
 
         print(f"PLAYER {current_player}'S playable cards: ")
         print(playable_cards)
@@ -163,9 +171,23 @@ def main():
 
 def main_with_env():
     env = SimpleEnv()
-    state = env.reset()
+    our_agent = RandomAgent(0)
 
-    print(state.hand, state.history)
+    for i in range(MAX_EPISODE):
+        state = env.reset()
+
+        print(state.hand, state.history)
+        done = False
+
+        while not done:
+            action = our_agent.act(state)
+
+            next_state, reward, done = env.step(action)
+
+            # experience replay here
+            # train agent
+
+            state = next_state
 
 
 if __name__ == '__main__':

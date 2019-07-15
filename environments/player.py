@@ -17,3 +17,6 @@ class Player:
     # @hand.setter
     # def hand(self, new_hand):
     #     self.__hand = new_hand
+
+    def available_actions(self) -> List[int]:
+        return self.hand

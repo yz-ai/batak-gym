@@ -2,6 +2,7 @@
 
 import random
 from agents import Agent
+from environments.state import State
 
 
 class RandomAgent(Agent):
@@ -10,14 +11,10 @@ class RandomAgent(Agent):
     def reset(self, config):
         pass
 
-    def __init__(self, config, *args, **kwargs):
+    def __init__(self, agent_id: int):
         """Initialize the agent."""
-        super().__init__(config, *args, **kwargs)
-        self.config = config
+        super().__init__(agent_id)
 
-    def act(self, observation):
-        """Act based on an observation."""
-        if observation['current_player_offset'] == 0:
-            return random.choice(observation['legal_moves'])
-        else:
-            return None
+    def act(self, state: State) -> int:
+        """Act based on an state"""
+        return random.choice(state.available_actions)
