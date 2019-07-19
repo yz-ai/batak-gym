@@ -32,14 +32,13 @@ class SimpleEnv:
         })
 
         # remove from hand
-        current_player_hand = self.players[self.current_player]['hand']
-        print(current_player_hand.shape)
-        print(current_player_hand)
-        print(tuple(action))
-        print(current_player_hand == tuple(action))
+        curr_player_hand = self.players[self.current_player]['hand']
+        action_idx = np.where((curr_player_hand == action).all(axis=1))
+        curr_player_hand = np.delete(curr_player_hand, action_idx, axis=0)
+        self.players[self.current_player]['hand'] = curr_player_hand
 
         # check if decision is needed
-        if len(self.current_set) == 4:
+        if len(self.current_set['cards']) == 4:
             # decide
             trump_present = False
             biggest = 0
@@ -47,7 +46,8 @@ class SimpleEnv:
             suit = -1
 
             for curr in self.current_set['cards']:
-                card, player = curr
+                card = curr['card']
+                player = curr['player']
                 card_suit, card_value = card
 
                 # set current suit
@@ -61,10 +61,12 @@ class SimpleEnv:
                 if trump_present:
                     if card_suit == SPADES and card_value > biggest:
                         winner = player
+                        biggest = card_value
                 # if trump not present, only current suit is valuable
                 else:
                     if card_suit == suit and card_value > biggest:
                         winner = player
+                        biggest = card_value
 
             # assign winner to previous set
             self.current_set['winner'] = winner
@@ -79,26 +81,32 @@ class SimpleEnv:
         # calculate available actionsfor next player
         current_player = self.players[self.current_player]
         player_hand = current_player['hand']
-        player_available_actions = current_player['available_actions']
+        avail_actions = np.empty((0, 2), dtype=int)
 
         # no cards present
         if len(self.current_set['cards']) == 0:
-            player_available_actions = np.copy(player_hand)
+            avail_actions = np.copy(player_hand)
         else:
             # check if hand has suit
             for card in player_hand:
                 suit, value = card
+                card = card.reshape(1, -1)
                 if suit == self.current_set['suit']:
-                    player_available_actions = np.append(player_available_actions, card)
+                    avail_actions = np.append(avail_actions, card, axis=0)
             # no suit present go for trump
-            if len(player_available_actions) == 0:
+            if len(avail_actions) == 0:
                 for card in player_hand:
                     suit, value = card
+                    card = card.reshape(1, -1)
                     if suit == SPADES:
-                        player_available_actions.append(card)
+                        avail_actions = np.append(avail_actions, card, axis=0)
             # no trump every card playable
-            if len(player_available_actions) == 0:
-                player_available_actions = np.copy(player_hand)
+            if len(avail_actions) == 0:
+                avail_actions = np.copy(player_hand)
+
+        self.players[self.current_player] = current_player
+        self.players[self.current_player]['hand'] = player_hand
+        self.players[self.current_player]['available_actions'] = avail_actions
 
         return {
             'player': self.players[self.current_player],
@@ -113,7 +121,7 @@ class SimpleEnv:
         # set players
         self.players = [
             {
-                'index': idx,
+                'index': idx // self.set_size,
                 'hand': self.deck[idx:idx + self.set_size],
                 'available_actions': self.deck[idx:idx + self.set_size],
             }
@@ -133,10 +141,50 @@ class SimpleEnv:
 
 
 env = SimpleEnv()
-state = env.reset()
 
+state = env.reset()
 selected_idx = np.random.choice(len(state['player']['available_actions']))
 action = state['player']['available_actions'][selected_idx]
-state = env.step(action)
-
 print(state)
+print(action)
+state = env.step(action)
+selected_idx = np.random.choice(len(state['player']['available_actions']))
+action = state['player']['available_actions'][selected_idx]
+print(state)
+print(action)
+state = env.step(action)
+selected_idx = np.random.choice(len(state['player']['available_actions']))
+action = state['player']['available_actions'][selected_idx]
+print(state)
+print(action)
+state = env.step(action)
+selected_idx = np.random.choice(len(state['player']['available_actions']))
+action = state['player']['available_actions'][selected_idx]
+print(state)
+print(action)
+state = env.step(action)
+selected_idx = np.random.choice(len(state['player']['available_actions']))
+action = state['player']['available_actions'][selected_idx]
+print(state)
+print(action)
+state = env.step(action)
+selected_idx = np.random.choice(len(state['player']['available_actions']))
+action = state['player']['available_actions'][selected_idx]
+print(state)
+print(action)
+state = env.step(action)
+selected_idx = np.random.choice(len(state['player']['available_actions']))
+action = state['player']['available_actions'][selected_idx]
+print(state)
+print(action)
+state = env.step(action)
+selected_idx = np.random.choice(len(state['player']['available_actions']))
+action = state['player']['available_actions'][selected_idx]
+print(state)
+print(action)
+state = env.step(action)
+selected_idx = np.random.choice(len(state['player']['available_actions']))
+action = state['player']['available_actions'][selected_idx]
+print(state)
+print(action)
+
