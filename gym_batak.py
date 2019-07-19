@@ -75,8 +75,11 @@ class SimpleEnv:
             # initialize set
             self.current_set = {'cards': []}
 
-        # pass to other player
-        self.current_player = (self.current_player + 1) % PLAYER_COUNT
+            # winner is the player
+            self.current_player = winner
+        else:
+            # pass to other player
+            self.current_player = (self.current_player + 1) % PLAYER_COUNT
 
         # calculate available actionsfor next player
         current_player = self.players[self.current_player]
@@ -104,9 +107,14 @@ class SimpleEnv:
             if len(avail_actions) == 0:
                 avail_actions = np.copy(player_hand)
 
-        self.players[self.current_player] = current_player
-        self.players[self.current_player]['hand'] = player_hand
-        self.players[self.current_player]['available_actions'] = avail_actions
+        # if cards are finished
+        if len(player_hand) == 0:
+            self.deal()
+        else:
+            curr_idx = self.current_player
+            self.players[curr_idx] = current_player
+            self.players[curr_idx]['hand'] = player_hand
+            self.players[curr_idx]['available_actions'] = avail_actions
 
         return {
             'player': self.players[self.current_player],
@@ -115,6 +123,21 @@ class SimpleEnv:
         }
 
     def reset(self):
+        # initialize starting player and set
+        self.starting_player = np.random.randint(0, PLAYER_COUNT)
+        self.current_set = {'cards': []}
+        self.previous_set = []
+
+        # deal
+        self.deal()
+
+        return {
+            'player': self.players[self.current_player],
+            'current_set': self.current_set,
+            'previous_set': self.previous_set,
+        }
+
+    def deal(self):
         # shuffle the deck
         np.random.shuffle(self.deck)
 
@@ -128,63 +151,19 @@ class SimpleEnv:
             for idx in np.arange(0, self.deck_size, self.set_size)
         ]
 
-        # initialize current player and set
-        self.current_player = np.random.randint(0, PLAYER_COUNT)
-        self.current_set = {'cards': []}
-        self.previous_set = []
-
-        return {
-            'player': self.players[self.current_player],
-            'current_set': self.current_set,
-            'previous_set': self.previous_set,
-        }
+        # change starting player
+        self.starting_player = (self.starting_player + 1) % PLAYER_COUNT
+        self.current_player = self.starting_player
 
 
 env = SimpleEnv()
 
 state = env.reset()
-selected_idx = np.random.choice(len(state['player']['available_actions']))
-action = state['player']['available_actions'][selected_idx]
-print(state)
-print(action)
-state = env.step(action)
-selected_idx = np.random.choice(len(state['player']['available_actions']))
-action = state['player']['available_actions'][selected_idx]
-print(state)
-print(action)
-state = env.step(action)
-selected_idx = np.random.choice(len(state['player']['available_actions']))
-action = state['player']['available_actions'][selected_idx]
-print(state)
-print(action)
-state = env.step(action)
-selected_idx = np.random.choice(len(state['player']['available_actions']))
-action = state['player']['available_actions'][selected_idx]
-print(state)
-print(action)
-state = env.step(action)
-selected_idx = np.random.choice(len(state['player']['available_actions']))
-action = state['player']['available_actions'][selected_idx]
-print(state)
-print(action)
-state = env.step(action)
-selected_idx = np.random.choice(len(state['player']['available_actions']))
-action = state['player']['available_actions'][selected_idx]
-print(state)
-print(action)
-state = env.step(action)
-selected_idx = np.random.choice(len(state['player']['available_actions']))
-action = state['player']['available_actions'][selected_idx]
-print(state)
-print(action)
-state = env.step(action)
-selected_idx = np.random.choice(len(state['player']['available_actions']))
-action = state['player']['available_actions'][selected_idx]
-print(state)
-print(action)
-state = env.step(action)
-selected_idx = np.random.choice(len(state['player']['available_actions']))
-action = state['player']['available_actions'][selected_idx]
-print(state)
-print(action)
 
+for i in np.arange(52 * 4):
+    selected_idx = np.random.choice(len(state['player']['available_actions']))
+    action = state['player']['available_actions'][selected_idx]
+    state = env.step(action)
+    print(state['current_set'])
+    print(state['previous_set'])
+    print(action)
