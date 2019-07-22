@@ -70,10 +70,10 @@ class SimpleEnv:
 
             # assign winner to previous set
             self.current_set['winner'] = winner
-            self.previous_set = np.copy(self.current_set)
+            self.previous_set = {**self.current_set}
 
             # initialize set
-            self.current_set = {'cards': []}
+            self.current_set = {'cards': [], 'winner': -1}
 
             # winner is the player
             self.current_player = winner
@@ -116,17 +116,28 @@ class SimpleEnv:
             self.players[curr_idx]['hand'] = player_hand
             self.players[curr_idx]['available_actions'] = avail_actions
 
+        reward = 0
+
+        print(self.current_player)
+        print(self.previous_set)
+        if self.current_player == self.previous_set['winner']:
+            reward = 1
+
         return {
+            'current_player': self.current_player,
             'player': self.players[self.current_player],
             'current_set': self.current_set,
             'previous_set': self.previous_set,
+        }, {
+            'current_player': self.current_player,
+            'reward': reward,
         }
 
     def reset(self):
         # initialize starting player and set
         self.starting_player = np.random.randint(0, PLAYER_COUNT)
-        self.current_set = {'cards': []}
-        self.previous_set = []
+        self.current_set = {'cards': [], 'winner': -1}
+        self.previous_set = {**self.current_set}
 
         # deal
         self.deal()
@@ -144,7 +155,6 @@ class SimpleEnv:
         # set players
         self.players = [
             {
-                'index': idx // self.set_size,
                 'hand': self.deck[idx:idx + self.set_size],
                 'available_actions': self.deck[idx:idx + self.set_size],
             }
@@ -160,10 +170,11 @@ env = SimpleEnv()
 
 state = env.reset()
 
-for i in np.arange(52 * 4):
+for i in np.arange(1 * 4 + 1):
     selected_idx = np.random.choice(len(state['player']['available_actions']))
     action = state['player']['available_actions'][selected_idx]
-    state = env.step(action)
+    state, reward = env.step(action)
+    print(state['current_player'])
     print(state['current_set'])
     print(state['previous_set'])
-    print(action)
+    print(reward)
