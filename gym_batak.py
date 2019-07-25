@@ -118,10 +118,11 @@ class SimpleEnv:
 
         reward = 0
 
-        print(self.current_player)
-        print(self.previous_set)
+        #print(self.current_player)
+        #print(self.previous_set)
         if self.current_player == self.previous_set['winner']:
             reward = 1
+            self.players[self.current_player]['total_win'] += 1
 
         return {
             'current_player': self.current_player,
@@ -157,6 +158,7 @@ class SimpleEnv:
             {
                 'hand': self.deck[idx:idx + self.set_size],
                 'available_actions': self.deck[idx:idx + self.set_size],
+                'total_win' : 0
             }
             for idx in np.arange(0, self.deck_size, self.set_size)
         ]
@@ -170,11 +172,14 @@ env = SimpleEnv()
 
 state = env.reset()
 
-for i in np.arange(1 * 4 + 1):
+for i in np.arange(1 * 48 + 1):
     selected_idx = np.random.choice(len(state['player']['available_actions']))
     action = state['player']['available_actions'][selected_idx]
     state, reward = env.step(action)
-    print(state['current_player'])
-    print(state['current_set'])
-    print(state['previous_set'])
-    print(reward)
+    #print(state)
+    #print(state['current_player'])
+    #print(state['current_set'])
+    #print(state['previous_set'])
+    #print(reward)
+    #print("----------------")
+print(state['player']['total_win'])
