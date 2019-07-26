@@ -132,6 +132,7 @@ class SimpleEnv:
         }, {
             'current_player': self.current_player,
             'reward': reward,
+            'total_reward' : self.players[self.current_player]['total_win']
         }
 
     def reset(self):
@@ -182,4 +183,4 @@ for i in np.arange(1 * 48 + 1):
     #print(state['previous_set'])
     #print(reward)
     #print("----------------")
-print(state['player']['total_win'])
+print(reward['total_reward'])
