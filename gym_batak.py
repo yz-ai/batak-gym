@@ -1,6 +1,7 @@
 import gym
 import numpy as np
 from gym import spaces
+from agents import RandomAgent, SimpleAgent
 
 
 SPADES = 0
@@ -172,15 +173,23 @@ class SimpleEnv:
 env = SimpleEnv()
 
 state = env.reset()
+episode = 4
 
-for i in np.arange(1 * 48 + 1):
-    selected_idx = np.random.choice(len(state['player']['available_actions']))
-    action = state['player']['available_actions'][selected_idx]
-    state, reward = env.step(action)
+random_agents = []
+for idx in range(3):
+    random_agents.append(RandomAgent(idx))
+my_agent = SimpleAgent(3)
+selected_player = env.current_player
+
+for i in np.arange(env.set_size ):
+    if(selected_player == my_agent.player_number):
+        state, reward = env.step(my_agent.take_action(state))
+    else:
+        state, reward = env.step(random_agents[selected_player].take_action(state))
     #print(state)
     #print(state['current_player'])
     #print(state['current_set'])
     #print(state['previous_set'])
     #print(reward)
     #print("----------------")
-print(reward['total_reward'])
+print(state)
