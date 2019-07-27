@@ -179,9 +179,10 @@ random_agents = []
 for idx in range(3):
     random_agents.append(RandomAgent(idx))
 my_agent = SimpleAgent(3)
-selected_player = env.current_player
+
 
 for i in np.arange(env.set_size ):
+    selected_player = env.current_player
     if(selected_player == my_agent.player_number):
         state, reward = env.step(my_agent.take_action(state))
     else:
