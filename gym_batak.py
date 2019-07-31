@@ -17,6 +17,7 @@ class SimpleEnv:
         self.set_size = set_size
         self.deck_size = self.set_size * PLAYER_COUNT
         self.deck = np.mgrid[0:4, 0:self.set_size].reshape(2, -1).T
+        self.done = False
 
     def step(self, action):
         # check if action is in available actions
@@ -78,6 +79,8 @@ class SimpleEnv:
 
             # winner is the player
             self.current_player = winner
+
+            self.done = True
         else:
             # pass to other player
             self.current_player = (self.current_player + 1) % PLAYER_COUNT
@@ -109,7 +112,7 @@ class SimpleEnv:
                 avail_actions = np.copy(player_hand)
 
         # if cards are finished
-        if len(player_hand) == 0:
+        if len(player_hand) == 0 and not self.done:
             self.deal()
         else:
             curr_idx = self.current_player
@@ -117,24 +120,23 @@ class SimpleEnv:
             self.players[curr_idx]['hand'] = player_hand
             self.players[curr_idx]['available_actions'] = avail_actions
 
-        reward = 0
 
         #print(self.current_player)
         #print(self.previous_set)
-        if self.current_player == self.previous_set['winner']:
-            reward = 1
-            self.players[self.current_player]['total_win'] += 1
+
 
         return {
             'current_player': self.current_player,
             'player': self.players[self.current_player],
             'current_set': self.current_set,
             'previous_set': self.previous_set,
-        }, {
+        }, self.done
+        
+        """{
             'current_player': self.current_player,
             'reward': reward,
             'total_reward' : self.players[self.current_player]['total_win']
-        }
+        }"""
 
     def reset(self):
         # initialize starting player and set
@@ -169,6 +171,11 @@ class SimpleEnv:
         self.starting_player = (self.starting_player + 1) % PLAYER_COUNT
         self.current_player = self.starting_player
 
+    def give_winner(self):
+        assert len(self.current_set['cards']) == 0, "This phase not over yet!"
+        self.done = False
+        return self.previous_set['winner']
+
 
 env = SimpleEnv()
 
@@ -179,18 +186,20 @@ random_agents = []
 for idx in range(3):
     random_agents.append(RandomAgent(idx))
 my_agent = SimpleAgent(3)
-
-
-for i in np.arange(env.set_size ):
+done = False
+winner = 0
+for i in np.arange(env.set_size*4 ):
     selected_player = env.current_player
     if(selected_player == my_agent.player_number):
-        state, reward = env.step(my_agent.take_action(state))
+        state,done = env.step(my_agent.take_action(state))
     else:
-        state, reward = env.step(random_agents[selected_player].take_action(state))
-    #print(state)
+        state,done = env.step(random_agents[selected_player].take_action(state))
+    
+    if (done):
+        winner = env.give_winner()
+        print(winner)
     #print(state['current_player'])
     #print(state['current_set'])
     #print(state['previous_set'])
     #print(reward)
     #print("----------------")
-print(state)
