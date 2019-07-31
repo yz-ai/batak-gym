@@ -186,20 +186,54 @@ random_agents = []
 for idx in range(3):
     random_agents.append(RandomAgent(idx))
 my_agent = SimpleAgent(3)
+my_agent._build_model()
+state_rep = []
 done = False
 winner = 0
-for i in np.arange(env.set_size*4 ):
+print('My agent number :',my_agent.player_number)
+my_win = 0
+for i in np.arange(env.set_size*4*500):
     selected_player = env.current_player
+
+
+
     if(selected_player == my_agent.player_number):
-        state,done = env.step(my_agent.take_action(state))
+        state_rep = []
+        for i in [x['card'] for x in state['current_set']['cards']]:
+            for y in i :
+                state_rep.append(y)
+        for i in range((4-len(state['current_set']['cards']))*2):
+            state_rep.append(14)
+        for i in [i for i in state['player']['available_actions']]:
+            for y in i :
+                state_rep.append(y)
+        for i in range((13-len(state['player']['available_actions']))*2):
+            state_rep.append(14)
+
+        action = my_agent.select_action(state_rep,state)
+        state,done = env.step(state['player']['available_actions'][action])
     else:
         state,done = env.step(random_agents[selected_player].take_action(state))
     
     if (done):
         winner = env.give_winner()
-        print(winner)
+        #print(winner)
+        reward = 0
+        if(winner == my_agent.player_number):
+            my_win +=1
+            reward = 1
+        my_agent.remember(state_rep,action,reward)
+        my_agent.learn_from_memory(1)
+        state = env.reset()
+        done = False
+    
+
+        
+        
+
     #print(state['current_player'])
     #print(state['current_set'])
     #print(state['previous_set'])
     #print(reward)
     #print("----------------")
+print(my_win)
