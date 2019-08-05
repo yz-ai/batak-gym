@@ -17,6 +17,9 @@ class SimpleEnv:
         self.deck_size = self.set_size * PLAYER_COUNT
         self.deck = np.mgrid[0:4, 0:self.set_size].reshape(2, -1).T
 
+        self.current_set = {'cards': [], 'winner': -1}
+        self.previous_set = {**self.current_set}
+
     def step(self, action):
         # check if action is in available actions
         assert action in self.players[self.current_player]['available_actions']
@@ -138,8 +141,6 @@ class SimpleEnv:
     def reset(self):
         # initialize starting player and set
         self.starting_player = np.random.randint(0, PLAYER_COUNT)
-        self.current_set = {'cards': [], 'winner': -1}
-        self.previous_set = {**self.current_set}
 
         # deal
         self.deal()
@@ -181,3 +182,4 @@ while True:
     print(reward)
     if done:
         print(env.get_rewards())
+        state = env.reset()
