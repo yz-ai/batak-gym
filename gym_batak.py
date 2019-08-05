@@ -19,6 +19,7 @@ class SimpleEnv:
 
         self.current_set = {'cards': [], 'winner': -1}
         self.previous_set = {**self.current_set}
+        self.starting_player = np.random.randint(0, PLAYER_COUNT)
 
     def step(self, action):
         # check if action is in available actions
@@ -139,9 +140,6 @@ class SimpleEnv:
         return [player['total_win'] for player in self.players]
 
     def reset(self):
-        # initialize starting player and set
-        self.starting_player = np.random.randint(0, PLAYER_COUNT)
-
         # deal
         self.deal()
 
