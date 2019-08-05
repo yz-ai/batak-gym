@@ -112,7 +112,13 @@ class SimpleEnv:
 
         # if cards are finished
         if len(player_hand) == 0:
-            return {}, {
+            return {
+                'current_player': -1,
+                'player': {},
+                'current_set': self.current_set,
+                'previous_set': self.previous_set,
+            }, {
+                'current_player': -1,
                 'rewards': [player['total_win'] for player in self.players]
             }, True
         else:
