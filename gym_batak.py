@@ -72,6 +72,9 @@ class SimpleEnv:
             self.current_set['winner'] = winner
             self.previous_set = {**self.current_set}
 
+            # increment total win
+            self.players[winner]['total_win'] += 10
+
             # initialize set
             self.current_set = {'cards': [], 'winner': -1}
 
@@ -109,7 +112,9 @@ class SimpleEnv:
 
         # if cards are finished
         if len(player_hand) == 0:
-            self.deal()
+            return {}, {
+                'rewards': [player['total_win'] for player in self.players]
+            }, True
         else:
             curr_idx = self.current_player
             self.players[curr_idx] = current_player
@@ -118,8 +123,6 @@ class SimpleEnv:
 
         reward = 0
 
-        print(self.current_player)
-        print(self.previous_set)
         if self.current_player == self.previous_set['winner']:
             reward = 1
 
@@ -131,7 +134,7 @@ class SimpleEnv:
         }, {
             'current_player': self.current_player,
             'reward': reward,
-        }
+        }, False
 
     def reset(self):
         # initialize starting player and set
@@ -157,6 +160,7 @@ class SimpleEnv:
             {
                 'hand': self.deck[idx:idx + self.set_size],
                 'available_actions': self.deck[idx:idx + self.set_size],
+                'total_win': 0,
             }
             for idx in np.arange(0, self.deck_size, self.set_size)
         ]
@@ -166,15 +170,14 @@ class SimpleEnv:
         self.current_player = self.starting_player
 
 
-env = SimpleEnv()
+env = SimpleEnv(5)
 
 state = env.reset()
 
-for i in np.arange(1 * 4 + 1):
+while True:
     selected_idx = np.random.choice(len(state['player']['available_actions']))
     action = state['player']['available_actions'][selected_idx]
-    state, reward = env.step(action)
-    print(state['current_player'])
-    print(state['current_set'])
-    print(state['previous_set'])
+    state, reward, done = env.step(action)
+    print(state)
     print(reward)
+    print(done)
