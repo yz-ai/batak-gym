@@ -110,27 +110,17 @@ class SimpleEnv:
             if len(avail_actions) == 0:
                 avail_actions = np.copy(player_hand)
 
-        # if cards are finished
-        if len(player_hand) == 0:
-            return {
-                'current_player': -1,
-                'player': {},
-                'current_set': self.current_set,
-                'previous_set': self.previous_set,
-            }, {
-                'current_player': -1,
-                'rewards': [player['total_win'] for player in self.players]
-            }, True
-        else:
-            curr_idx = self.current_player
-            self.players[curr_idx] = current_player
-            self.players[curr_idx]['hand'] = player_hand
-            self.players[curr_idx]['available_actions'] = avail_actions
+        curr_idx = self.current_player
+        self.players[curr_idx] = current_player
+        self.players[curr_idx]['hand'] = player_hand
+        self.players[curr_idx]['available_actions'] = avail_actions
 
         reward = 0
 
         if self.current_player == self.previous_set['winner']:
             reward = 1
+
+        done = len(player_hand) == 0
 
         return {
             'current_player': self.current_player,
@@ -140,7 +130,10 @@ class SimpleEnv:
         }, {
             'current_player': self.current_player,
             'reward': reward,
-        }, False
+        }, done
+
+    def get_rewards(self):
+        return [player['total_win'] for player in self.players]
 
     def reset(self):
         # initialize starting player and set
@@ -186,4 +179,5 @@ while True:
     state, reward, done = env.step(action)
     print(state)
     print(reward)
-    print(done)
+    if done:
+        print(env.get_rewards())
